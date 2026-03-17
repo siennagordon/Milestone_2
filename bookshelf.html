@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>My Bookshelf</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="bookshelf.html">My Bookshelf</a>
+</nav>
+
+<h1>My Bookshelf</h1>
+
+<div id="shelf"></div>
+
+<script>
+
+let bookIDs = [
+80HZZsKobHYC
+ASFTEQAAQBAJ
+OvxE0QEACAAJ
+];
+
+$.each(bookIDs,function(i,id){
+
+let url = "https://www.googleapis.com/books/v1/volumes/" + id;
+
+$.getJSON(url,function(data){
+
+let title = data.volumeInfo.title;
+
+let img = "";
+
+if(data.volumeInfo.imageLinks){
+img = data.volumeInfo.imageLinks.thumbnail;
+}
+
+$("#shelf").append(
+
+"<div class='book'>" +
+"<img src='"+img+"'>" +
+"<h3><a href='details.html?id="+id+"'>" +
+title +
+"</a></h3>" +
+"</div>"
+
+);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
