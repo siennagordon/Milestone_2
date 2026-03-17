@@ -5,14 +5,7 @@ let currentQuery = "";
 
 $("#searchBtn").click(function(){
 
-let searchTerm = $("#searchBox").val().trim();
-
-if(searchTerm === ""){
-alert("Please enter a search term.");
-return;
-}
-
-currentQuery = searchTerm;
+currentQuery = $("#searchBox").val();
 
 loadBooks(0);
 
