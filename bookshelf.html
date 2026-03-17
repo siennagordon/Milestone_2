@@ -31,6 +31,8 @@ let bookIDs = [
 
 $.each(bookIDs,function(i,id){
 
+setTimeout(function(){
+
 let url = "https://www.googleapis.com/books/v1/volumes/" + id;
 
 $.getJSON(url,function(data){
@@ -47,12 +49,14 @@ $("#shelf").append(
 
 "<div class='book'>" +
 "<img src='"+img+"'>" +
-"<h3><a href='details.html?id="+id+"'>" +
-title +
-"</a></h3>" +
+"<h3>"+title+"</h3>" +
 "</div>"
 
 );
+
+});
+
+}, i * 500);  
 
 });
 
