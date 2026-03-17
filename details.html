@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Book Details</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/details.js"></script>
 
 </head>
 
@@ -18,45 +20,6 @@
 </nav>
 
 <div id="bookDetails"></div>
-
-<script>
-
-const urlParams = new URLSearchParams(window.location.search);
-const bookId = urlParams.get('id');
-
-let apiURL = "https://www.googleapis.com/books/v1/volumes/" + bookId;
-
-$.getJSON(apiURL,function(data){
-
-let book = data.volumeInfo;
-
-let title = book.title;
-
-let authors = book.authors;
-
-let publisher = book.publisher;
-
-let description = book.description;
-
-let image = "";
-
-if(book.imageLinks){
-image = book.imageLinks.thumbnail;
-}
-
-$("#bookDetails").append(
-
-"<h1>"+title+"</h1>" +
-"<img src='"+image+"'>" +
-"<p><strong>Authors:</strong> "+authors+"</p>" +
-"<p><strong>Publisher:</strong> "+publisher+"</p>" +
-"<p>"+description+"</p>"
-
-);
-
-});
-
-</script>
 
 </body>
 </html>
