@@ -5,12 +5,18 @@ let currentQuery = "";
 
 $("#searchBtn").click(function(){
 
-currentQuery = $("#searchBox").val();
+let searchTerm = $("#searchBox").val().trim();
+
+if(searchTerm === ""){
+alert("Please enter a search term.");
+return;
+}
+
+currentQuery = searchTerm;
 
 loadBooks(0);
 
 });
-
 function loadBooks(startIndex){
 
 let url = "https://www.googleapis.com/books/v1/volumes?q="
