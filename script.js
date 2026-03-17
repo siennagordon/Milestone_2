@@ -1,30 +1,49 @@
 $(document).ready(function(){
 
-let resultsPerPage = 10;
 let currentQuery = "";
 
 $("#searchBtn").click(function(){
 
-currentQuery = $("#searchBox").val();
+currentQuery = $("#searchBox").val().trim();
+
+if(currentQuery === ""){
+alert("Please enter a search term");
+return;
+}
 
 loadBooks(0);
 
 });
+
+$("#pageSelect").change(function(){
+
+let startIndex = $(this).val();
+
+loadBooks(startIndex);
+
+});
+
 function loadBooks(startIndex){
 
-let url = "https://www.googleapis.com/books/v1/volumes?q="
-+ currentQuery +
-"&startIndex=" + startIndex +
-"&maxResults=" + resultsPerPage;
+$("#searchBtn").prop("disabled", true);
 
-$.getJSON(url, function(data){
+let url = "https://www.googleapis.com/books/v1/volumes?q="
++ encodeURIComponent(currentQuery)
++ "&startIndex=" + startIndex
++ "&maxResults=10";
+
+$.getJSON(url,function(data){
 
 $("#results").empty();
 
-$.each(data.items, function(i, book){
+if(!data.items){
+$("#results").append("<p>No results found</p>");
+return;
+}
+
+$.each(data.items,function(i,book){
 
 let title = book.volumeInfo.title;
-
 let id = book.id;
 
 let img = "";
@@ -37,45 +56,17 @@ $("#results").append(
 
 "<div class='book'>" +
 "<img src='"+img+"'>" +
-"<h3><a href='details.html?id="+id+"'>" + title + "</a></h3>" +
+"<h3><a href='details.html?id="+id+"'>"+title+"</a></h3>" +
 "</div>"
 
 );
 
 });
 
-createPagination();
+$("#searchBtn").prop("disabled", false);
 
 });
 
 }
 
-function createPagination(){
-
-$("#pagination").empty();
-
-for(let i=0;i<6;i++){
-
-let start = i * resultsPerPage;
-
-$("#pagination").append(
-
-"<button class='pageBtn' data-start='"+start+"'>"+
-(i+1)+"</button>"
-
-);
-
-}
-
-}
-
-$(document).on("click",".pageBtn",function(){
-
-let start = $(this).data("start");
-
-loadBooks(start);
-
 });
-
-});
-
