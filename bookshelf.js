@@ -2,17 +2,21 @@ $(document).ready(function() {
 
     const API_KEY = "AIzaSyC2vuDX-mAgbXuAiPymRrYXFjwembU3Wws";
     // Replace these with Volume IDs from your public bookshelf
-    const query = "id:xIS9EAAAQBAJ OR id:VswAEAAAQBAJ OR id:lpMqnwEACAAJ";
+    const bookIDs = [
+        "xIS9EAAAQBAJ",
+        "VswAEAAAQBAJ",
+        "lpMqnwEACAAJ"
+    ];
+    
 
-    const url = "https://www.googleapis.com/books/v1/volumes?q=" + query + "&key=" + API_KEY;
+    bookIDs.forEach(function(id) {
 
-    $.getJSON(url, function(data) {
-        if (!data.items) { $("#shelf").append("<p>No books found</p>"); return; }
+        let url = "https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + API_KEY;
 
-        $.each(data.items, function(i, book) {
-            let title = book.volumeInfo.title;
-            let id = book.id;
-            let img = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "";
+        $.getJSON(url, function(data) {
+
+            let title = data.volumeInfo.title || "No title";
+            let img = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : "";
 
             $("#shelf").append(
                 "<div class='book'>" +
@@ -20,7 +24,11 @@ $(document).ready(function() {
                 "<h3><a href='details.html?id="+id+"'>"+title+"</a></h3>" +
                 "</div>"
             );
+
+        }).fail(function() {
+            console.log("Error loading book ID:", id);
         });
+
     });
 
 });
