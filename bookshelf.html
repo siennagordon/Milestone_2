@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>My Bookshelf</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/bookshelf.js"></script>
 
 </head>
 
@@ -20,48 +22,6 @@
 <h1>My Bookshelf</h1>
 
 <div id="shelf"></div>
-
-<script>
-
-let bookIDs = [
-"lpMqnwEACAAJ",
-"xIS9EAAAQBAJ",
-"VswAEAAAQBAJ"
-];
-
-$.each(bookIDs,function(i,id){
-
-setTimeout(function(){
-
-let url = "https://www.googleapis.com/books/v1/volumes/" + id;
-
-$.getJSON(url,function(data){
-
-let title = data.volumeInfo.title;
-
-let img = "";
-
-if(data.volumeInfo.imageLinks){
-img = data.volumeInfo.imageLinks.thumbnail;
-}
-
-$("#shelf").append(
-
-"<div class='book'>" +
-"<img src='"+img+"'>" +
-"<h3>"+title+"</h3>" +
-"</div>"
-
-);
-
-});
-
-}, i * 500);  
-
-});
-
-
-</script>
 
 </body>
 </html>
